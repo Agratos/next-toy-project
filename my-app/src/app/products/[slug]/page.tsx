@@ -14,10 +14,10 @@ export default function ProductsPage({params}: Props) {
     return <h1>PantsPage {params.slug}</h1>
 }
 
-// export function generateStaticParams() {
-//     const products = ['pants', 'skirt'];
+export function generateStaticParams() {
+    const products = ['pants', 'skirt'];
 
-//     return products.map(product => ({
-//         slug: product
-//     }))
-// }
+    return products.map(product => ({
+        slug: product
+    }))
+}
