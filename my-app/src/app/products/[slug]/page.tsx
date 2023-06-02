@@ -1,9 +1,7 @@
-import { Metadata } from 'next';
+import { getProduct, getProducts } from '@/service/products';
 import { notFound } from 'next/navigation';
 
-import { getProduct, getProducts } from '@/service/products';
-
-export const revalidate = 10;
+export const revalidate = 3;
 
 type Props = {
   params: {
@@ -13,14 +11,14 @@ type Props = {
 
 export function generateMetadata({ params }: Props) {
   return {
-    title: `제품의 이름 ${params.slug}`,
-  }
+    title: `제품의 이름: ${params.slug}`,
+  };
 }
 
-export default async function ProductPage({ params: {slug} }: Props) {
-  const product = await getProduct(slug)
+export default async function ProductPage({ params: { slug } }: Props) {
+  const product = await getProduct(slug);
 
-  if(!product) {
+  if (!product) {
     notFound();
   }
 
@@ -28,6 +26,7 @@ export default async function ProductPage({ params: {slug} }: Props) {
 }
 
 export async function generateStaticParams() {
+  // 모든 제품의 페이지들을 미리 만들어 둘 수 있게 해줄거임 (SSG)
   const products = await getProducts();
   return products.map((product) => ({
     slug: product.id,
